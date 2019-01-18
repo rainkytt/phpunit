@@ -6,12 +6,12 @@ use PHPUnit\Framework\TestCase;
 use TDD\Receipt; // alusfail kasutamiseks
 
 class ReceiptTest extends TestCase {
-	public function setUp() { // funktsioonid, mis pannakse tööle enne igat testmeeetodi väljakutsumist
-		$this->Receipt = new Receipt(); // teeb klassist objekti
+	public function setUp() {
+		$this->Receipt = new Receipt(); // objekt on alles
 	}
 
-	public function tearDown() { // funktsioonid, mis pannakse tööle enne igat testmeeetodi väljakutsumist
-		unset($this->Receipt); // et ühest testist ei kantaks midagi üle teise, s.t tühjendab mälust
+	public function tearDown() {
+		unset($this->Receipt);
 	}
 	public function testTotal() {
 		$input = [0,2,5,8];
@@ -20,6 +20,17 @@ class ReceiptTest extends TestCase {
 			15,
 			$output,
 			'When summing the total should equal 15'
+		);
+	}
+
+	public function testTax() { // uus funktsioon
+		$inputAmount = 10.00;
+		$taxInput = 0.10;
+		$output = $this->Receipt->tax($inputAmount, $taxInput);
+		$this->assertEquals(
+			1.00,
+			$output, // muutuja
+			'The tax calculation should equal 1.00'
 		);
 	}
 }
