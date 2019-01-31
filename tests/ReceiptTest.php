@@ -24,7 +24,7 @@ class ReceiptTest extends TestCase { // laiendab TestCase klassi
 		);
 	}
 
-	// uus funktsioon "testTotalAndCoupon", aga sarnane eelmisega
+	// uus funktsioon "testTotalAndCoupon", aga koos coupon-i väärtusega
 	public function testTotalAndCoupon() {
 		$input = [0,2,5,8];
 		$coupon = 0.20; // nüüd on väärtus olemas
@@ -34,6 +34,19 @@ class ReceiptTest extends TestCase { // laiendab TestCase klassi
 			$output, // see mis tuleb reaalselt
 			'When summing the total should equal 12' // teade tuleb vea korral
 		);
+	}
+
+	// kogu summale maksu õigesti lisamise kontroll-funktsioon koos Mock objektiga
+	public function testPostTaxTotal() {
+		$Receipt = $this->getMockBuilder('TDD\Receipt') // Receipt klassi alusel luuakse Mock objekt
+			->setMethods(['tax', 'total']) // need meetodid lisatakse Mock objektile
+			->getMock(); // Mock object omab Receipt objekti omadusi
+		$Receipt->method('total') // Mock objekti meetod total
+			->will($this->returnValue(10.00)); // ette antud suurus total=10
+		$Receipt->method('tax') // Mock objekti meetod tax
+			->will($this->returnValue(1.00)); // ette antud suurus tax=1
+		$result = $Receipt->postTaxTotal([1,2,5,8], 0.20, null); // mock objekti meetod koos argumentidega
+		$this->assertEquals(11.00, $result); // selline, ehk 11, peab olema Mock objekti tulemus
 	}
 
 	public function testTax() {
