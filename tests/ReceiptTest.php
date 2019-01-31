@@ -30,8 +30,8 @@ class ReceiptTest extends TestCase { // laiendab TestCase klassi
 	public function provideTotal() { // andme edastus funktsioon koos etteantud väärtustega
 		return [
 			'ints totaling 16' => [[1,2,5,8], 16], // kokku 16
-			[[-1,2,5,8], 14],
-			[[1,2,8], 11],
+			[[-1,2,5,8], 14], // kokku 14
+			[[1,2,8], 11], // kokku 11
 		];
 	}
 
@@ -45,6 +45,14 @@ class ReceiptTest extends TestCase { // laiendab TestCase klassi
 			$output, // see mis tuleb reaalselt
 			'When summing the total should equal 12' // teade tuleb vea korral
 		);
+	}
+
+	// Kui tagasikutsumine viitab määratlemata meetodile või kui puuduvad mõned argumendid
+	public function testTotalException() {
+		$input = [0,2,5,8];
+		$coupon = 1.20;
+		$this->expectException('BadMethodCallException');
+		$this->Receipt->total($input, $coupon);
 	}
 
 	// kogu summale maksu õigesti lisamise kontroll-funktsioon koos Mock objektiga
