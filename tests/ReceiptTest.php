@@ -15,11 +15,24 @@ class ReceiptTest extends TestCase { // laiendab TestCase klassi
 	}
 	public function testTotal() {
 		$input = [0,2,5,8]; // massiivi liikmed
-		$output = $this->Receipt->total($input); // kutsutakse välja total meetod ja anna ette input-i
-		$this->assertEquals(
-			15,
-			$output,
-			'When summing the total should equal 15'
+		$coupon = null; // muutuja on väärtuseta
+		$output = $this->Receipt->total($input, $coupon); // kutsutakse välja total meetod ja annab ette input-i ja coupon-i
+		$this->assertEquals( // veendu et võrdub
+			15, // oodatav tulemus
+			$output, // see mis tuleb reaalselt
+			'When summing the total should equal 15' // teade tuleb vea korral
+		);
+	}
+
+	// uus funktsioon "testTotalAndCoupon", aga sarnane eelmisega
+	public function testTotalAndCoupon() {
+		$input = [0,2,5,8];
+		$coupon = 0.20; // nüüd on väärtus olemas
+		$output = $this->Receipt->total($input, $coupon);
+		$this->assertEquals( // veendu et võrdub
+			12, // oodatav tulemus
+			$output, // see mis tuleb reaalselt
+			'When summing the total should equal 12' // teade tuleb vea korral
 		);
 	}
 
