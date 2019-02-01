@@ -56,6 +56,7 @@ class ReceiptTest extends TestCase { // laiendab TestCase klassi
 	}
 
 	// kogu summale maksu õigesti lisamise kontroll-funktsioon koos Mock objektiga
+	/* Kui vaadata rida 74, siis massiivi liikmete [1,2,5,8] summa on kokku 16. Kui sellest maha lahutada kopungi väärtus (16 * 0,2 = 3,2), siis on vastuseks 12,8 mis ei võrdu real 75 toodud 11.00-ga. Ehk siit peakski tulema välja mock-objekti ning päris objekti vahe. Antud test kontrollib vaid seda, et kutsuti välja (mock-objekti) meetod total(), mis tagastab 10.00 ning tax(), mis tagastab 1.00. Lisaks veendutakse, et mõlemat meetodit kutsutakse välja vaid üks kord (($this->once()); (Viimane asjaolu eristabki stub'i mock'ist) */
 	public function testPostTaxTotal() {
 		$items = [1,2,5,8];
 		$tax = 0.20;
